@@ -1,9 +1,9 @@
 apiVersion: v1
 kind: Pod
 metadata:
-  name: "{{ include "kuma-k8s-operator.fullname" . }}-test-connection"
+  name: "{{ include "kuma-k8s-controller.fullname" . }}-test-connection"
   labels:
-    {{- include "kuma-k8s-operator.labels" . | nindent 4 }}
+    {{- include "kuma-k8s-controller.labels" . | nindent 4 }}
   annotations:
     "helm.sh/hook": test
 spec:
@@ -11,5 +11,5 @@ spec:
     - name: wget
       image: busybox
       command: ['wget']
-      args: ['{{ include "kuma-k8s-operator.fullname" . }}:{{ .Values.service.port }}']
+      args: ['{{ include "kuma-k8s-controller.fullname" . }}:{{ .Values.service.port }}']
   restartPolicy: Never

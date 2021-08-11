@@ -16,7 +16,7 @@ var (
 	configPath string
 	runCmd     = &cobra.Command{
 		Use:   "run",
-		Short: "Start kuma-k8s-operator",
+		Short: "Start kuma-k8s-controller",
 		Run:   run,
 	}
 )
@@ -24,7 +24,7 @@ var (
 func init() {
 
 	runCmd.PersistentFlags().StringVarP(&configPath, "config", "c",
-		"/configs/kuma-k8s-operator.conf.json", "Path to the configuration file")
+		"/configs/kuma-k8s-controller.conf.json", "Path to the configuration file")
 
 	rootCmd.AddCommand(runCmd)
 }

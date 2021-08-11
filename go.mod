@@ -1,4 +1,4 @@
-module kuma-k8s-operator
+module kuma-k8s-controller
 
 go 1.13
 

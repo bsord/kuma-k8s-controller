@@ -1,7 +1,7 @@
 {{/*
 Expand the name of the chart.
 */}}
-{{- define "kuma-k8s-operator.name" -}}
+{{- define "kuma-k8s-controller.name" -}}
 {{- default .Chart.Name .Values.nameOverride | trunc 63 | trimSuffix "-" }}
 {{- end }}
 
@@ -10,7 +10,7 @@ Create a default fully qualified app name.
 We truncate at 63 chars because some Kubernetes name fields are limited to this (by the DNS naming spec).
 If release name contains chart name it will be used as a full name.
 */}}
-{{- define "kuma-k8s-operator.fullname" -}}
+{{- define "kuma-k8s-controller.fullname" -}}
 {{- if .Values.fullnameOverride }}
 {{- .Values.fullnameOverride | trunc 63 | trimSuffix "-" }}
 {{- else }}
@@ -26,16 +26,16 @@ If release name contains chart name it will be used as a full name.
 {{/*
 Create chart name and version as used by the chart label.
 */}}
-{{- define "kuma-k8s-operator.chart" -}}
+{{- define "kuma-k8s-controller.chart" -}}
 {{- printf "%s-%s" .Chart.Name .Chart.Version | replace "+" "_" | trunc 63 | trimSuffix "-" }}
 {{- end }}
 
 {{/*
 Common labels
 */}}
-{{- define "kuma-k8s-operator.labels" -}}
-helm.sh/chart: {{ include "kuma-k8s-operator.chart" . }}
-{{ include "kuma-k8s-operator.selectorLabels" . }}
+{{- define "kuma-k8s-controller.labels" -}}
+helm.sh/chart: {{ include "kuma-k8s-controller.chart" . }}
+{{ include "kuma-k8s-controller.selectorLabels" . }}
 {{- if .Chart.AppVersion }}
 app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
 {{- end }}
@@ -45,17 +45,17 @@ app.kubernetes.io/managed-by: {{ .Release.Service }}
 {{/*
 Selector labels
 */}}
-{{- define "kuma-k8s-operator.selectorLabels" -}}
-app.kubernetes.io/name: {{ include "kuma-k8s-operator.name" . }}
+{{- define "kuma-k8s-controller.selectorLabels" -}}
+app.kubernetes.io/name: {{ include "kuma-k8s-controller.name" . }}
 app.kubernetes.io/instance: {{ .Release.Name }}
 {{- end }}
 
 {{/*
 Create the name of the service account to use
 */}}
-{{- define "kuma-k8s-operator.serviceAccountName" -}}
+{{- define "kuma-k8s-controller.serviceAccountName" -}}
 {{- if .Values.serviceAccount.create }}
-{{- default (include "kuma-k8s-operator.fullname" .) .Values.serviceAccount.name }}
+{{- default (include "kuma-k8s-controller.fullname" .) .Values.serviceAccount.name }}
 {{- else }}
 {{- default "default" .Values.serviceAccount.name }}
 {{- end }}

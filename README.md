@@ -1,10 +1,10 @@
-# kuma-k8s-operator
-Kubernetes operator that posts ingresses to an uptime monitor.
+# kuma-k8s-controller
+Kubernetes controller that posts ingresses to an uptime monitor.
 ## Install
 ```sh
 helm repo add ingress-nginx https://cfcr.io/bsord/helm-charts
 helm repo update
-helm install kuma-k8s-operator bsord/kuma-k8s-operator --set monitorUrl="https://yourkumauptimehost/api"
+helm install kuma-k8s-controller bsord/kuma-k8s-controller --set monitorUrl="https://yourkumauptimehost/api"
 ```
 
 ## Setting up development environment
