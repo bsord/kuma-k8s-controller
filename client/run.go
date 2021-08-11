@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"time"
 
 	"github.com/spf13/cobra"
 	"k8s.io/apimachinery/pkg/util/runtime"
@@ -45,7 +46,7 @@ func run(cmd *cobra.Command, args []string) {
 	}
 
 	// Initiate informer factory
-	informerFactory := informers.NewSharedInformerFactory(clientset, 0)
+	informerFactory := informers.NewSharedInformerFactory(clientset, 10*time.Minute)
 
 	// create ingress informer inside the factory
 	ingressInformer := informerFactory.Networking().V1().Ingresses().Informer()
