@@ -2,7 +2,7 @@
 Kubernetes controller that posts ingresses to an uptime monitor.
 ## Install
 ```sh
-helm repo add ingress-nginx https://cfcr.io/bsord/helm-charts
+helm repo add bsord https://cfcr.io/bsord/helm-charts
 helm repo update
 helm install kuma-k8s-controller bsord/kuma-k8s-controller --set monitorUrl="https://yourkumauptimehost/api"
 ```
