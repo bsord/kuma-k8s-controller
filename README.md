@@ -71,7 +71,6 @@ kubectl config use-context YOUR_OTHER_CONTEXT # switch to your desired context
 - [ ] Implement config map, secrets, arg passing from helm to Cobra
 - [ ] Define basic models and attributes needed to build a monitor definitions
 - [ ] Implement http post method to Slack on ingress events to test models and posting implementation
-- [ ] Implement reconciliation/sync for list modes to avoid making unnecessary http posts
 - [ ] Cache go modules/packages during docker build process to avoid lengthy build times
 - [ ] Add github actions workflow to auto version bump, build/publish docker, and publish helm chart
 - [ ] :allthethings:
