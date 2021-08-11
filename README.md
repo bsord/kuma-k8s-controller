@@ -28,7 +28,7 @@ chmod 700 get_helm.sh
 ```
 
 3. Install Skaffold
-Then enables real time and local development of this project in a kubernetes environment.
+This enables real time and local development of this project in a kubernetes environment.
 ```sh
 curl -Lo skaffold https://storage.googleapis.com/skaffold/releases/latest/skaffold-linux-amd64 && \
 sudo install skaffold /usr/local/bin/
