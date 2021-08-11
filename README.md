@@ -52,9 +52,9 @@ skaffold dev
 6. Create a deployment with an ingress to trigger an event(Optional):
 This is useful for testing.
 ```sh
-helm repo add ingress-nginx https://kubernetes.github.io/ingress-nginx
+helm repo add jonfairbanks https://jonfairbanks.github.io/helm-charts/ 
 helm repo update
-helm install ingress-nginx ingress-nginx/ingress-nginx
+helm install dna jonfairbanks/docker-node-app
 ```
 
 Switch back to your other kube contexts if you have any, as installing a local cluster may have changed your default context.
