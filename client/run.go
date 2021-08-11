@@ -1,14 +1,15 @@
 package main
 
 import (
-	"context"
 	"fmt"
 	"time"
 
 	"github.com/spf13/cobra"
-	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
+	"k8s.io/apimachinery/pkg/util/wait"
+	"k8s.io/client-go/informers"
 	"k8s.io/client-go/kubernetes"
 	"k8s.io/client-go/rest"
+	"k8s.io/client-go/tools/cache"
 )
 
 var (
@@ -44,30 +45,34 @@ func run(cmd *cobra.Command, args []string) {
 		panic(err.Error())
 	}
 
-	// main loop *ideally this would be a watch/listener or configurable via Cobra flag
-	for {
+	// Initiate informer factory
+	informerFactory := informers.NewSharedInformerFactory(clientset, 10*time.Minute)
 
-		// get List of ingresses from kubeclient
-		ingressList, err := clientset.NetworkingV1().Ingresses("").List(context.TODO(), metav1.ListOptions{})
-		if err != nil {
-			panic(err.Error())
-		}
+	// create ingress informer inside the factory
+	ingressInformer := informerFactory.Networking().V1().Ingresses()
 
-		// iterate ingresses
-		ingresses := ingressList.Items
-		if len(ingresses) > 0 {
-			for _, ingress := range ingresses {
+	// define function handlers for ingress informer
+	ingressInformer.Informer().AddEventHandler(cache.ResourceEventHandlerFuncs{
+		AddFunc: func(new interface{}) {
+			fmt.Println("ingress was added")
+		},
+		UpdateFunc: func(old, new interface{}) {
+			fmt.Println("ingress was updated")
+		},
+		DeleteFunc: func(obj interface{}) {
+			fmt.Println("ingress was deleted")
+		},
+	})
 
-				// TODO: Iterate each of the sub objects such as rules and iterate
-				// TODO: define and extract items from ingress results and store to custom type/struct for posting
-				fmt.Printf("ingress %s exists in namespace %s on host %s at path %s\n", ingress.Name, ingress.Namespace, ingress.Spec.Rules[0].Host, ingress.Spec.Rules[0].HTTP.Paths[0].String())
-			}
-		} else {
-			fmt.Println("no ingress found")
-		}
+	// start the informers
+	informerFactory.Start(wait.NeverStop)
+	informerFactory.WaitForCacheSync(wait.NeverStop)
 
-		// interval
-		time.Sleep(60 * time.Second)
+	// list the ingresses in the informer.
+	ingress, err := ingressInformer.Lister().Ingresses("").Get("")
+	if err != nil {
+		fmt.Println("there was an error listing the ingresses")
 	}
+	fmt.Println(ingress)
 
 }
