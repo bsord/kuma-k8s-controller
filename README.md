@@ -65,7 +65,8 @@ kubectl config use-context YOUR_OTHER_CONTEXT # switch to your desired context
 
 ## TODO:
 - [x] Initial implementation
-- [ ] Use watch and kubeinformers + cache to catch events real time (ideally behind a Cobra config/flag)
+- [x] Use watch and kubeinformers + cache to catch events real time
+- [ ] Implement proper add, update, remove funcs with proper object casting/typing.
 - [ ] Restore proper sig handling in Cobra
 - [ ] Implement config map, secrets, arg passing from helm to Cobra
 - [ ] Define basic models and attributes needed to build a monitor definitions
