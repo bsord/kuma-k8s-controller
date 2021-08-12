@@ -5,7 +5,7 @@ import (
 	"time"
 
 	"encoding/json"
-	"github.com/spf13/cobra"
+
 	networkv1 "k8s.io/api/networking/v1"
 	"k8s.io/apimachinery/pkg/util/runtime"
 	"k8s.io/client-go/informers"
@@ -14,26 +14,9 @@ import (
 	"k8s.io/client-go/tools/cache"
 )
 
-var (
-	configPath string
-	runCmd     = &cobra.Command{
-		Use:   "run",
-		Short: "Start kuma-k8s-controller",
-		Run:   run,
-	}
-)
-
-func init() {
-
-	runCmd.PersistentFlags().StringVarP(&configPath, "config", "c",
-		"/configs/kuma-k8s-controller.conf.json", "Path to the configuration file")
-
-	rootCmd.AddCommand(runCmd)
-}
-
 // TODO: Define type struct for post events here
 
-func run(cmd *cobra.Command, args []string) {
+func main() {
 
 	// create in-cluster config
 	config, err := rest.InClusterConfig()
@@ -70,8 +53,6 @@ func run(cmd *cobra.Command, args []string) {
 			fmt.Println("ingress was deleted")
 		},
 	})
-
-	fmt.Println("test")
 
 	// Run the informer
 	ingressInformer.Run(stopper)
@@ -135,7 +116,7 @@ func handleNewIngress(obj interface{}) {
 		for _, path := range paths {
 
 			// add path to monitor
-			ingressMonitor.Paths = append(ingressMonitor.Paths, "https://" + host + path.Path)
+			ingressMonitor.Paths = append(ingressMonitor.Paths, "https://"+host+path.Path)
 
 			// write console
 			fmt.Printf("-https://%s%s\n", host, path.Path)
@@ -144,14 +125,14 @@ func handleNewIngress(obj interface{}) {
 	}
 
 	// Get json render of ingressMonitor struct
-	jsonOutput, _ :=  json.Marshal(ingressMonitor)
+	jsonOutput, _ := json.Marshal(ingressMonitor)
 	fmt.Println(string(jsonOutput))
 
 }
 
 type ingressMonitor struct {
-	Name            string		`json:"name"`
-	ResourceVersion string		`json:"resourceVersion"`
-	Annotations     []string	`json:"annotations"`
-	Paths           []string	`json:"paths"`
+	Name            string   `json:"name"`
+	ResourceVersion string   `json:"resourceVersion"`
+	Annotations     []string `json:"annotations"`
+	Paths           []string `json:"paths"`
 }

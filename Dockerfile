@@ -2,7 +2,7 @@ FROM golang AS builder
 WORKDIR /source
 COPY . .
 RUN go get ./...
-RUN go build -v -o=kuma-k8s-controller kuma-k8s-controller/client
+RUN go build -v -o=kuma-k8s-controller kuma-k8s-controller
 RUN mkdir /app && cp kuma-k8s-controller /app/
 
 FROM alpine
@@ -11,4 +11,4 @@ WORKDIR /app
 
 COPY --from=builder "/app" .
 
-CMD ["/app/kuma-k8s-controller", "run"]
+CMD ["/app/kuma-k8s-controller"]
