@@ -3,6 +3,8 @@ kind: Config
 build:
   artifacts:
   - image: kuma-k8s-controller
+  local:
+    useBuildkit: true
 deploy:
   helm:
     releases:
