@@ -90,13 +90,13 @@ jobs:
           tags: ${{ github.repository }}:${{ steps.get-next-version.outputs.version }}
           cache-from: type=local,src=/tmp/.buildx-cache
           cache-to: type=local,dest=/tmp/.buildx-cache
-
+          
       - name: Push Helm chart
         if: ${{ steps.get-next-version.outputs.skipped == 'false' }}
-        uses: bsord/helm-push@v2
+        uses: bsord/helm-push@v4
         with:
           access-token: ${{ secrets.CM_API_KEY }}
-          repository-url: ${{ secrets.CM_REPO_URL }} 
+          registry-url: ${{ secrets.CM_REPO_URL }} 
           force: true
           chart-folder: chart
       
