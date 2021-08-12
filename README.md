@@ -66,11 +66,10 @@ kubectl config use-context YOUR_OTHER_CONTEXT # switch to your desired context
 ## TODO:
 - [x] Initial implementation
 - [x] Use watch and kubeinformers + cache to catch events real time
-- [ ] Implement proper add, update, remove funcs with proper object casting/typing.
-- [ ] Restore proper sig handling in Cobra
-- [ ] Implement config map, secrets, arg passing from helm to Cobra
-- [ ] Define basic models and attributes needed to build a monitor definitions
-- [ ] Implement http post method to Slack on ingress events to test models and posting implementation
-- [ ] Cache go modules/packages during docker build process to avoid lengthy build times
+- [x] Implement proper add, update, remove funcs with proper object casting/typing.
+- [x] Implement environment variable passing for slack url
+- [x] Define basic models and attributes needed to build a monitor definitions
+- [x] Implement http post method to Slack on ingress events to test models and posting implementation
+- [x] Cache go modules/packages during docker build process to avoid lengthy build times
 - [ ] Add github actions workflow to auto version bump, build/publish docker, and publish helm chart
 - [ ] :allthethings:
