@@ -4,7 +4,7 @@ Kubernetes controller that posts ingresses to an uptime monitor.
 ```sh
 helm repo add bsord https://cfcr.io/bsord/helm-charts
 helm repo update
-helm install kuma-k8s-controller bsord/kuma-k8s-controller --set monitorUrl="https://yourkumauptimehost/api"
+helm install kuma-k8s-controller bsord/kuma-k8s-controller --set slackurl="slack-webhook-url-here"
 ```
 
 ## Setting up development environment
@@ -71,5 +71,5 @@ kubectl config use-context YOUR_OTHER_CONTEXT # switch to your desired context
 - [x] Define basic models and attributes needed to build a monitor definitions
 - [x] Implement http post method to Slack on ingress events to test models and posting implementation
 - [x] Cache go modules/packages during docker build process to avoid lengthy build times
-- [ ] Add github actions workflow to auto version bump, build/publish docker, and publish helm chart
+- [x] Add github actions workflow to auto version bump, build/publish docker, and publish helm chart
 - [ ] :allthethings:

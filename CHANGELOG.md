@@ -1,4 +1,22 @@
-## [v0.1.2](https://github.com/bsord/kuma-k8s-controller/compare/v0.1.1...v0.1.2) (2021-08-12)
+## [v0.1.4](https://github.com/bsord/kuma-k8s-controller/compare/v0.1.3...v0.1.4) (2021-08-12)
+
+
+### Bug Fixes
+
+* **helm:** fix chart version from release. ([37672bb](https://github.com/bsord/kuma-k8s-controller/commit/37672bb90635372d6e79f5d3944cd74334058429))
+
+
+
+## [0.1.3](https://github.com/bsord/kuma-k8s-controller/compare/v0.1.2...v0.1.3) (2021-08-12)
+
+
+### Bug Fixes
+
+* **helm:** Use newer helm-push action in repo ([c85ee5d](https://github.com/bsord/kuma-k8s-controller/commit/c85ee5d8188beba8e15b7072d455afab3e60a5c4))
+
+
+
+## [0.1.2](https://github.com/bsord/kuma-k8s-controller/compare/v0.1.1...v0.1.2) (2021-08-12)
 
 
 ### Bug Fixes
@@ -27,10 +45,6 @@
 ### Features
 
 * **release:** create automated release ([53d24eb](https://github.com/bsord/kuma-k8s-controller/commit/53d24eb8bb4f3227dfc2c97695d6c957cc763d60))
-
-
-
-## 0.0.1 (2021-08-12)
 
 
 
