@@ -1,10 +1,14 @@
 package main
 
 import (
-	"fmt"
-	"time"
-
+	"bytes"
 	"encoding/json"
+	"fmt"
+	"io/ioutil"
+	"net/http"
+	"os"
+	"strings"
+	"time"
 
 	networkv1 "k8s.io/api/networking/v1"
 	"k8s.io/apimachinery/pkg/util/runtime"
@@ -78,7 +82,7 @@ func handleNewIngress(obj interface{}) {
 	resourceVersion := ingress.GetResourceVersion()
 	fmt.Printf("Resource Version: %s\n", resourceVersion)
 
-	ingressMonitor := &ingressMonitor{
+	ingressMon := &ingressMonitor{
 		Name:            name,
 		ResourceVersion: resourceVersion,
 		Annotations:     []string{},
@@ -93,7 +97,7 @@ func handleNewIngress(obj interface{}) {
 	for _, annotation := range annotations {
 
 		// add annotation to monitor
-		ingressMonitor.Annotations = append(ingressMonitor.Annotations, annotation)
+		ingressMon.Annotations = append(ingressMon.Annotations, annotation)
 
 		// write console
 		fmt.Printf("-%s\n", annotation)
@@ -116,7 +120,7 @@ func handleNewIngress(obj interface{}) {
 		for _, path := range paths {
 
 			// add path to monitor
-			ingressMonitor.Paths = append(ingressMonitor.Paths, "https://"+host+path.Path)
+			ingressMon.Paths = append(ingressMon.Paths, "https://"+host+path.Path)
 
 			// write console
 			fmt.Printf("-https://%s%s\n", host, path.Path)
@@ -124,10 +128,86 @@ func handleNewIngress(obj interface{}) {
 
 	}
 
-	// Get json render of ingressMonitor struct
-	jsonOutput, _ := json.Marshal(ingressMonitor)
-	fmt.Println(string(jsonOutput))
+	// Define structs for slack message
+	type slackField struct {
+		Type string `json:"type"`
+		Text string `json:"text"`
+	}
 
+	type slackBlock struct {
+		Type   string       `json:"type"`
+		Text   *slackField  `json:"text,omitempty"`
+		Fields []slackField `json:"fields,omitempty"`
+	}
+
+	type slackMessage struct {
+		Blocks []slackBlock `json:"blocks"`
+	}
+
+	// Create slack message
+	slackMsg := &slackMessage{
+		Blocks: []slackBlock{
+			{
+				Type: "section",
+				Text: &slackField{
+					Type: "mrkdwn",
+					Text: "New ingress has been created:\n*" + name + "*",
+				},
+			},
+			{
+				Type: "section",
+				Fields: []slackField{
+					{
+						Type: "mrkdwn",
+						Text: "*Name:*\n" + name,
+					},
+					{
+						Type: "mrkdwn",
+						Text: "*Resource Version:*\n" + resourceVersion,
+					},
+					{
+						Type: "mrkdwn",
+						Text: "*Paths:*\n" + string(strings.Join(ingressMon.Paths[:], ",")),
+					},
+					{
+						Type: "mrkdwn",
+						Text: "*Annotations:*\n" + string(strings.Join(ingressMon.Annotations[:], ",")),
+					},
+				},
+			},
+		},
+	}
+
+	slackMessageJson, _ := json.Marshal(slackMsg)
+
+	slackUrl := os.Getenv("SLACK_URL")
+
+	sendSlackNotif(slackMessageJson, slackUrl)
+
+	fmt.Println(string(slackMessageJson))
+
+}
+
+func sendSlackNotif(jsonMessage json.RawMessage, url string) {
+
+	//var jsonStr = []byte(`{"text":"Buy cheese and bread for breakfast."}`)
+	req, err := http.NewRequest("POST", url, bytes.NewBuffer(jsonMessage))
+	if err != nil {
+		panic(err)
+	}
+	req.Header.Set("Content-Type", "application/json")
+
+	client := &http.Client{}
+	resp, err := client.Do(req)
+	if err != nil {
+		panic(err)
+	}
+	defer resp.Body.Close()
+
+	fmt.Println("response Status:", resp.Status)
+	fmt.Println("response Headers:", resp.Header)
+	body, _ := ioutil.ReadAll(resp.Body)
+	fmt.Println("response Body:", string(body))
 }
 
 type ingressMonitor struct {

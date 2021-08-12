@@ -14,6 +14,8 @@ imagePullSecrets: []
 nameOverride: ""
 fullnameOverride: ""
 
+slackurl: "https://hooks.slack.com/services/xxxxxxxxx/xxxxxxxxxxxxx/xxxxxxxxxxxxxxxxxxxxxx"
+
 rbac:
   create: true
   
