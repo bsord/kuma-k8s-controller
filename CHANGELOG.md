@@ -1,4 +1,13 @@
-## [v0.1.2](https://github.com/bsord/kuma-k8s-controller/compare/v0.1.1...v0.1.2) (2021-08-12)
+## [v0.1.3](https://github.com/bsord/kuma-k8s-controller/compare/v0.1.2...v0.1.3) (2021-08-12)
+
+
+### Bug Fixes
+
+* **helm:** Use newer helm-push action in repo ([c85ee5d](https://github.com/bsord/kuma-k8s-controller/commit/c85ee5d8188beba8e15b7072d455afab3e60a5c4))
+
+
+
+## [0.1.2](https://github.com/bsord/kuma-k8s-controller/compare/v0.1.1...v0.1.2) (2021-08-12)
 
 
 ### Bug Fixes
