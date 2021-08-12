@@ -12,5 +12,5 @@ deploy:
         image: kuma-k8s-controller
       imageStrategy:
         helm: {}
-      setValues:
-        slackurl: https://hooks.slack.com/services/xxxxxxxxx/xxxxxxxxxxx/xxxxxxxxxxxxxxxxxxxxxxxx
+      setValueTemplates:
+        slackurl: "{{.SLACK_URL}}"
