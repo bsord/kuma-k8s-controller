@@ -45,6 +45,7 @@ helm install ingress-nginx ingress-nginx/ingress-nginx
 
 5. Deploy this project in development mode
 Start the development environment
+Edit skaffold.yaml to override values such as slackurl
 ```sh
 skaffold dev
 ```
