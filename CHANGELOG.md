@@ -1,4 +1,13 @@
-## [v0.1.1](https://github.com/bsord/kuma-k8s-controller/compare/v0.1.0...v0.1.1) (2021-08-12)
+## [v0.1.2](https://github.com/bsord/kuma-k8s-controller/compare/v0.1.1...v0.1.2) (2021-08-12)
+
+
+### Bug Fixes
+
+* **docker:** replace docker build and publish ([4ac47f0](https://github.com/bsord/kuma-k8s-controller/commit/4ac47f048528a9bd6c1ae805d60002287dab29e3))
+
+
+
+## [0.1.1](https://github.com/bsord/kuma-k8s-controller/compare/v0.1.0...v0.1.1) (2021-08-12)
 
 
 ### Bug Fixes
