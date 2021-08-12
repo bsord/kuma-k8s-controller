@@ -4,7 +4,9 @@ import (
 	"fmt"
 	"time"
 
+	"encoding/json"
 	"github.com/spf13/cobra"
+	networkv1 "k8s.io/api/networking/v1"
 	"k8s.io/apimachinery/pkg/util/runtime"
 	"k8s.io/client-go/informers"
 	"k8s.io/client-go/kubernetes"
@@ -60,9 +62,7 @@ func run(cmd *cobra.Command, args []string) {
 
 	// define function handlers for ingress informer
 	ingressInformer.AddEventHandler(cache.ResourceEventHandlerFuncs{
-		AddFunc: func(new interface{}) {
-			fmt.Println("ingress was added")
-		},
+		AddFunc: handleNewIngress,
 		UpdateFunc: func(old, new interface{}) {
 			fmt.Println("ingress was updated")
 		},
@@ -82,4 +82,76 @@ func run(cmd *cobra.Command, args []string) {
 		return
 	}
 
+}
+
+func handleNewIngress(obj interface{}) {
+	fmt.Println("Ingress created")
+	// Cast the obj as an ingress
+	ingress := obj.(*networkv1.Ingress)
+
+	// Get name
+	name := ingress.Name
+	fmt.Printf("Name: %s\n", name)
+
+	// Get resource version
+	resourceVersion := ingress.GetResourceVersion()
+	fmt.Printf("Resource Version: %s\n", resourceVersion)
+
+	ingressMonitor := &ingressMonitor{
+		Name:            name,
+		ResourceVersion: resourceVersion,
+		Annotations:     []string{},
+		Paths:           []string{},
+	}
+
+	// Get Annotations
+	annotations := ingress.GetAnnotations()
+	fmt.Println("Annotations:")
+
+	// Iterate annotations
+	for _, annotation := range annotations {
+
+		// add annotation to monitor
+		ingressMonitor.Annotations = append(ingressMonitor.Annotations, annotation)
+
+		// write console
+		fmt.Printf("-%s\n", annotation)
+	}
+
+	// get rules
+	rules := ingress.Spec.Rules
+
+	// iterate each rule
+	for _, rule := range rules {
+
+		// get host
+		host := rule.Host
+
+		// get paths
+		paths := rule.HTTP.Paths
+		fmt.Println("Paths:")
+
+		// iterate each path
+		for _, path := range paths {
+
+			// add path to monitor
+			ingressMonitor.Paths = append(ingressMonitor.Paths, "https://" + host + path.Path)
+
+			// write console
+			fmt.Printf("-https://%s%s\n", host, path.Path)
+		}
+
+	}
+
+	// Get json render of ingressMonitor struct
+	jsonOutput, _ :=  json.Marshal(ingressMonitor)
+	fmt.Println(string(jsonOutput))
+
+}
+
+type ingressMonitor struct {
+	Name            string		`json:"name"`
+	ResourceVersion string		`json:"resourceVersion"`
+	Annotations     []string	`json:"annotations"`
+	Paths           []string	`json:"paths"`
 }
