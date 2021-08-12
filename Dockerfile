@@ -2,7 +2,7 @@
 FROM golang AS builder
 WORKDIR /source
 ENV CGO_ENABLED=0
-COPY go.* .
+COPY go.* ./
 RUN go mod download
 COPY . .
 RUN --mount=type=cache,target=/root/.cache/go-build \
