@@ -2,7 +2,7 @@
 Kubernetes controller that posts ingresses to an uptime monitor.
 ## Install
 ```sh
-helm repo add ingress-nginx https://cfcr.io/bsord/helm-charts
+helm repo add bsord https://cfcr.io/bsord/helm-charts
 helm repo update
 helm install kuma-k8s-controller bsord/kuma-k8s-controller --set monitorUrl="https://yourkumauptimehost/api"
 ```
@@ -28,7 +28,7 @@ chmod 700 get_helm.sh
 ```
 
 3. Install Skaffold
-Then enables real time and local development of this project in a kubernetes environment.
+This enables real time and local development of this project in a kubernetes environment.
 ```sh
 curl -Lo skaffold https://storage.googleapis.com/skaffold/releases/latest/skaffold-linux-amd64 && \
 sudo install skaffold /usr/local/bin/
@@ -71,7 +71,6 @@ kubectl config use-context YOUR_OTHER_CONTEXT # switch to your desired context
 - [ ] Implement config map, secrets, arg passing from helm to Cobra
 - [ ] Define basic models and attributes needed to build a monitor definitions
 - [ ] Implement http post method to Slack on ingress events to test models and posting implementation
-- [ ] Implement reconciliation/sync for list modes to avoid making unnecessary http posts
 - [ ] Cache go modules/packages during docker build process to avoid lengthy build times
 - [ ] Add github actions workflow to auto version bump, build/publish docker, and publish helm chart
 - [ ] :allthethings:
