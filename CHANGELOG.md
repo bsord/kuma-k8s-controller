@@ -1,4 +1,13 @@
-# [v0.1.0](https://github.com/bsord/kuma-k8s-controller/compare/v0.0.1...v0.1.0) (2021-08-12)
+## [v0.1.1](https://github.com/bsord/kuma-k8s-controller/compare/v0.1.0...v0.1.1) (2021-08-12)
+
+
+### Bug Fixes
+
+* **docker:** use path for copy command ([622e34a](https://github.com/bsord/kuma-k8s-controller/commit/622e34a6d67eb02edb94a88f3fd4cf75b86ddeed))
+
+
+
+# [0.1.0](https://github.com/bsord/kuma-k8s-controller/compare/v0.0.1...v0.1.0) (2021-08-12)
 
 
 ### Bug Fixes
